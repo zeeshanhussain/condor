@@ -39,18 +39,16 @@
 
 void vendor_load_properties()
 {
-    char platform[PROP_VALUE_MAX];
-    char radio[PROP_VALUE_MAX];
-    char device[PROP_VALUE_MAX];
+   
     int rc;
 
-    rc = property_get("ro.board.platform", platform);
-    if (!rc || !ISMATCH(platform, ANDROID_TARGET))
-        return;
+    std::string platform = property_get("ro.board.platform");
+     if (!ISMATCH(platform.c_str(), ANDROID_TARGET))
+            return;
 
     property_set("ro.product.model", "Moto E");
-    property_get("ro.boot.radio", radio);
-    if (ISMATCH(radio, "0x1")) {
+    std::string radio = property_get("ro.boot.radio");
+    if (ISMATCH(radio.c_str(), "0x1")) {
         /* xt1021 */
         property_set("ro.product.device", "condor_umts");
         property_set("ro.build.product", "condor_umts");
@@ -59,7 +57,7 @@ void vendor_load_properties()
         property_set("ro.mot.build.customerid", "reteu");
         property_set("ro.telephony.default_network", "0");
         property_set("persist.radio.multisim.config", "");
-    } else if (ISMATCH(radio, "0x5")) {
+    } else if (ISMATCH(radio.c_str(), "0x5")) {
         /* xt1022 */
         property_set("ro.product.device", "condor_umtsds");
         property_set("ro.build.product", "condor_umtsds");
@@ -71,7 +69,7 @@ void vendor_load_properties()
         property_set("persist.radio.multisim.config", "dsds");
         property_set("persist.radio.dont_use_dsd", "true");
         property_set("persist.radio.plmn_name_cmp", "1");
-    } else if (ISMATCH(radio, "0x6")) {
+    } else if (ISMATCH(radio.c_str(), "0x6")) {
         /* xt1023 */
         property_set("ro.product.device", "condor_umts");
         property_set("ro.build.product", "condor_umts");
@@ -81,6 +79,7 @@ void vendor_load_properties()
         property_set("ro.telephony.default_network", "0");
         property_set("persist.radio.multisim.config", "");
     }
-    property_get("ro.product.device", device);
-    INFO("Found radio id: %s setting build properties for %s device\n", radio, device);
+
+   std::string device = property_get("ro.product.device");
+    INFO("Found radio id %s setting build properties for %s device\n", radio.c_str(), device.c_str());
 }
