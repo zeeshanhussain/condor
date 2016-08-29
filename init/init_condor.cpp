@@ -35,7 +35,7 @@
 #include "log.h"
 #include "util.h"
 
-#define ISMATCH(a,b)    (!strncmp(a,b,PROP_VALUE_MAX))
+
 
 void vendor_load_properties()
 {
@@ -43,12 +43,12 @@ void vendor_load_properties()
     int rc;
 
     std::string platform = property_get("ro.board.platform");
-     if (!ISMATCH(platform.c_str(), ANDROID_TARGET))
+    if (platform != ANDROID_TARGET)
             return;
 
     property_set("ro.product.model", "Moto E");
     std::string radio = property_get("ro.boot.radio");
-    if (ISMATCH(radio.c_str(), "0x1")) {
+    if (radio == "0x1")) {
         /* xt1021 */
         property_set("ro.product.device", "condor_umts");
         property_set("ro.build.product", "condor_umts");
@@ -57,7 +57,7 @@ void vendor_load_properties()
         property_set("ro.mot.build.customerid", "reteu");
         property_set("ro.telephony.default_network", "0");
         property_set("persist.radio.multisim.config", "");
-    } else if (ISMATCH(radio.c_str(), "0x5")) {
+    } else if (radio == "0x5")) {
         /* xt1022 */
         property_set("ro.product.device", "condor_umtsds");
         property_set("ro.build.product", "condor_umtsds");
@@ -69,7 +69,7 @@ void vendor_load_properties()
         property_set("persist.radio.multisim.config", "dsds");
         property_set("persist.radio.dont_use_dsd", "true");
         property_set("persist.radio.plmn_name_cmp", "1");
-    } else if (ISMATCH(radio.c_str(), "0x6")) {
+    } else if (radio == "0x6")) {
         /* xt1023 */
         property_set("ro.product.device", "condor_umts");
         property_set("ro.build.product", "condor_umts");
